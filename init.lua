@@ -141,6 +141,14 @@ vim.o.timeoutlen = 300
 vim.o.splitright = true
 vim.o.splitbelow = true
 
+-- Tabs/indent
+vim.o.tabstop = 4 -- show a tab as 4 spaces
+vim.o.shiftwidth = 4 -- indent size when using >>, <<, etc.
+vim.o.expandtab = true -- convert tabs to spaces
+
+-- True color
+vim.o.termguicolors = true
+
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
