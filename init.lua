@@ -689,7 +689,13 @@ require('lazy').setup({
         -- clangd = {},
         gopls = {},
         pyright = {},
-        rust_analyzer = {},
+        rust_analyzer = {
+          -- Use the rustup toolchain's own rust-analyzer instead of Mason's.
+          -- Mason ships a standalone build that prepends itself to $PATH and can
+          -- drift out of sync with `rust-src`, breaking go-to-definition into std.
+          -- The cargo proxy always matches the active toolchain (and rust-toolchain.toml).
+          cmd = { vim.fn.expand '$HOME/.cargo/bin/rust-analyzer' },
+        },
         bashls = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -730,6 +736,10 @@ require('lazy').setup({
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
+      -- rust_analyzer comes from the rustup toolchain (see its `cmd` above), not Mason.
+      ensure_installed = vim.tbl_filter(function(name)
+        return name ~= 'rust_analyzer'
+      end, ensure_installed)
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
       })
@@ -738,17 +748,20 @@ require('lazy').setup({
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
         automatic_installation = false,
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
-          end,
-        },
       }
+
+      -- NOTE: mason-lspconfig v2 removed the `handlers` option and auto-enables the
+      -- servers it installs, so the old handler-based customization no longer runs.
+      -- Instead we register capabilities + per-server config through the native
+      -- `vim.lsp` API and enable the servers explicitly. This also covers
+      -- `rust_analyzer`, which we run from the rustup toolchain (see its `cmd`),
+      -- not from Mason -- Mason's standalone build shadows it on $PATH and drifts
+      -- out of sync with `rust-src`, which breaks go-to-definition into std.
+      vim.lsp.config('*', { capabilities = capabilities })
+      for server_name, cfg in pairs(servers) do
+        vim.lsp.config(server_name, cfg)
+      end
+      vim.lsp.enable(vim.tbl_keys(servers))
     end,
   },
 
