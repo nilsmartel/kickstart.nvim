@@ -33,5 +33,16 @@ return {
         require('bufferline').go_to(i, true)
       end, { desc = 'Go to buffer ' .. i })
     end
+
+    -- Make a bare `:q` close only the current buffer, while `:q!` (and `:wq`,
+    -- `:qa`, …) keep their built-in behaviour. We inspect the whole command
+    -- line on <CR> so `q` and `q!` are cleanly distinguished. Note: to force
+    -- close a single modified buffer, use `:bd!`.
+    vim.keymap.set('c', '<CR>', function()
+      if vim.fn.getcmdtype() == ':' and vim.fn.getcmdline() == 'q' then
+        return '<C-u>bd<CR>'
+      end
+      return '<CR>'
+    end, { expr = true, desc = ':q closes current buffer' })
   end,
 }
