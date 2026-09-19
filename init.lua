@@ -688,7 +688,13 @@ require('lazy').setup({
       local servers = {
         -- clangd = {},
         gopls = {},
-        pyright = {},
+        ty = {},
+        ruff = {
+          on_attach = function(client)
+            -- Let ty provide hover information
+            client.server_capabilities.hoverProvider = false
+          end,
+        },
         rust_analyzer = {
           -- Use the rustup toolchain's own rust-analyzer instead of Mason's.
           -- Mason ships a standalone build that prepends itself to $PATH and can
