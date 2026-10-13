@@ -676,6 +676,9 @@ require('lazy').setup({
       --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
       --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
       local capabilities = require('blink.cmp').get_lsp_capabilities()
+      -- Advertise `workspace/willRenameFiles` so Neo-tree renames can ask the
+      -- server to update imports/references (via nvim-lsp-file-operations).
+      capabilities = vim.tbl_deep_extend('force', capabilities, require('lsp-file-operations').default_capabilities())
 
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
