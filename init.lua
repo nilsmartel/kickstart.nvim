@@ -752,6 +752,8 @@ require('lazy').setup({
       end, ensure_installed)
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'shfmt', -- Used to format shell scripts
+        'prettierd', -- Used to format JS/TS/JSON/YAML/Markdown/CSS/HTML
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -807,11 +809,20 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        sh = { 'shfmt' },
+        bash = { 'shfmt' },
+        -- Python, Go and Rust are formatted by their LSPs (ruff, gopls, rust_analyzer) via lsp_format = 'fallback'
+        -- 'stop_after_first' runs the first available formatter from the list
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        json = { 'prettierd', 'prettier', stop_after_first = true },
+        jsonc = { 'prettierd', 'prettier', stop_after_first = true },
+        yaml = { 'prettierd', 'prettier', stop_after_first = true },
+        markdown = { 'prettierd', 'prettier', stop_after_first = true },
+        css = { 'prettierd', 'prettier', stop_after_first = true },
+        html = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
