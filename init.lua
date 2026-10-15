@@ -811,7 +811,10 @@ require('lazy').setup({
         lua = { 'stylua' },
         sh = { 'shfmt' },
         bash = { 'shfmt' },
-        -- Python, Go and Rust are formatted by their LSPs (ruff, gopls, rust_analyzer) via lsp_format = 'fallback'
+        -- rustfmt comes from the rustup toolchain and picks up the crate's edition and rustfmt.toml
+        rust = { 'rustfmt' },
+        python = { 'ruff_format' },
+        -- Go is formatted by gopls via lsp_format = 'fallback'
         -- 'stop_after_first' runs the first available formatter from the list
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
         javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
@@ -823,6 +826,16 @@ require('lazy').setup({
         markdown = { 'prettierd', 'prettier', stop_after_first = true },
         css = { 'prettierd', 'prettier', stop_after_first = true },
         html = { 'prettierd', 'prettier', stop_after_first = true },
+      },
+      -- Default prettier style (no semicolons) for projects without their own prettier config;
+      -- a project's .prettierrc still takes precedence.
+      formatters = {
+        prettierd = {
+          env = { PRETTIERD_DEFAULT_CONFIG = vim.fn.stdpath 'config' .. '/prettierrc.json' },
+        },
+        prettier = {
+          prepend_args = { '--config-precedence', 'prefer-file', '--no-semi' },
+        },
       },
     },
   },
