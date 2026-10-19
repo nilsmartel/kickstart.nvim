@@ -17,6 +17,7 @@ wholesale**. Diff against `3338d39` to see what the user changed.
 - `lua/custom/plugins/*.lua`: the user's own plugins, loaded via `{ import = 'custom.plugins' }`.
 - `lua/kickstart/health.lua`: `:checkhealth kickstart`.
 - `lazy-lock.json`: plugin pins. **It is gitignored** (not tracked), as are `.luarc.json`, `spell/`, `.DS_Store`.
+- `Usermanual.md`: the user's personal cheat sheet (see below).
 - `.stylua.toml`: formatting rules. `doc/kickstart.txt`: help file.
 
 ## Deviations from upstream kickstart
@@ -68,6 +69,20 @@ Minor changes:
   `~/.local/share/nvim/mason/bin/`.
 - Keep kickstart's explanatory comment style. Explain *why* a deviation exists in a comment.
 - Leader is `<Space>`. Add `desc` to every keymap so it shows up in which-key.
+
+## User manual (`Usermanual.md`)
+
+`Usermanual.md` is the user's personal cheat sheet. It deliberately lists **only** the shortcuts and
+commands the user has asked about because they couldn't remember them, not every keymap in the config.
+
+- **When the user asks how to do something** ("what's the shortcut for X?", "how do I Y?"), answer, then
+  add the answer to `Usermanual.md` under a fitting section (create the section if needed). Skip it if it's
+  already there. Don't add entries the user didn't ask about.
+- **Keep it in sync.** Whenever you add, change or remove a keymap, command or plugin, check whether any
+  `Usermanual.md` entry is affected and update or remove it in the same change. Verify entries against the
+  actual config (or `maparg()` headless) rather than assuming upstream defaults.
+- Format: a table per section with `Keys` / `Mode` / `What it does` columns. Note where a mapping comes
+  from when it isn't obvious (e.g. "built-in", "mini.surround").
 
 ## Formatting
 
