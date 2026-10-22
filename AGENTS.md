@@ -51,6 +51,7 @@ Minor changes:
 - Telescope: `<leader><leader>` finds files, `<leader><Tab>` lists buffers (upstream used `<leader><leader>`
   for buffers).
 - blink.cmp keymap preset is `'enter'` (Enter accepts).
+- Colorscheme: `navarasu/onedark.nvim` (style `dark`) replaces tokyonight.
 - Treesitter: `main = 'nvim-treesitter.config'` (the plugin tracks the `main` branch), and `wgsl` was added
   to `ensure_installed`.
 
