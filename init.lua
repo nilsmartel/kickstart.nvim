@@ -207,6 +207,14 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- Same, but with the leader: <Space>h/j/k/l acts like <C-w>h/j/k/l.
+--  This takes over the <leader>h prefix that kickstart reserved for gitsigns' hunk maps
+--  (gitsigns isn't enabled here; remap those if you ever turn it on).
+vim.keymap.set('n', '<leader>h', '<C-w>h', { desc = 'Move focus to the left window' })
+vim.keymap.set('n', '<leader>j', '<C-w>j', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<leader>k', '<C-w>k', { desc = 'Move focus to the upper window' })
+vim.keymap.set('n', '<leader>l', '<C-w>l', { desc = 'Move focus to the right window' })
+
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
 -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
@@ -354,7 +362,6 @@ require('lazy').setup({
       spec = {
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       },
     },
   },
