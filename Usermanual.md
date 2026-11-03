@@ -26,3 +26,10 @@ Shortcuts and commands I keep forgetting. Only the ones I asked about, not every
 | `<Space>sh`   | Normal | Search Neovim's `:help` tags (Telescope)                                     |
 | `<Space>sk`   | Normal | Search all keymaps (Telescope)                                               |
 | `:h {topic}`  | Cmd    | Open Neovim help for a topic, e.g. `:h motion`                               |
+
+## Searching
+
+| Keys             | Mode   | What it does                                                                                           |
+| ---------------- | ------ | ------------------------------------------------------------------------------------------------------ |
+| `<Space>sg`      | Normal | Search file **contents** across the project (Telescope live_grep, ripgrep). Substring/regex, not fuzzy |
+| `<Space><Space>` | Normal | Find files by **name** (fuzzy)                                                                         |
